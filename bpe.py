@@ -26,6 +26,9 @@ class BPE():
                     buff_split_text.append(split_text[i])
                     i += 1
 
+            if i < len(split_text):
+                buff_split_text.append(split_text[i])
+
             split_text = buff_split_text
 
         for i in range(len(uniq_tokens)):
