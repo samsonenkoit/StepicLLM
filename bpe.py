@@ -18,12 +18,13 @@ class BPE():
             uniq_tokens.append(new_token)
             buff_split_text = []
             i = 0
-            while i < len(split_text):
+            while i < len(split_text) - 1:
                 if new_pair == (split_text[i], split_text[i + 1]):
                     buff_split_text.append(new_token)
                     i += 2
                 else:
                     buff_split_text.append(split_text[i])
+                    i += 1
 
             split_text = buff_split_text
 
