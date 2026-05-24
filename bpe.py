@@ -36,6 +36,24 @@ class BPE():
             self.id2token[i] = token
             self.token2id[token] = i
 
+    def encode(self, text: str):
+        encoded_text = []
+        while len(text) > 0:
+            symbol = text[0]
+
+            suitable_token_keys = [
+                key for key in self.token2id if key.startswith(symbol)]
+
+            suitable_token_keys = sorted(
+                suitable_token_keys, key=len, reverse=True)
+
+            for token_key in suitable_token_keys:
+                if text.startswith(token_key):
+                    encoded_text.append(self.token2id[token_key])
+                    text = text[len(token_key):]
+
+        return encoded_text
+
     def _get_best_pair(self, split_text: list):
         pairs_count, pair_first_position = self._count_pairs(split_text)
 
