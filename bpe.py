@@ -1,4 +1,5 @@
 from collections import defaultdict
+import dill
 
 
 class BPE():
@@ -36,6 +37,13 @@ class BPE():
             self.id2token[i] = token
             self.token2id[token] = i
 
+    def decode(self, token_ids):
+        text = ''
+        for token_id in token_ids:
+            text += self.id2token[token_id]
+
+        return text
+
     def encode(self, text: str):
         encoded_text = []
         while len(text) > 0:
@@ -53,6 +61,19 @@ class BPE():
                     text = text[len(token_key):]
 
         return encoded_text
+
+    def save(self, filename):
+        with open(filename, 'wb') as f:
+            dill.dump(self, f)
+        print(f"Объект сохранён в {filename}")
+
+    @classmethod
+    def load(cls, filename):
+        with open(filename, 'rb') as f:
+            obj = dill.load(f)
+
+        print(f"Объект загружен из {filename}")
+        return obj
 
     def _get_best_pair(self, split_text: list):
         pairs_count, pair_first_position = self._count_pairs(split_text)
